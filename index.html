@@ -4,16 +4,38 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sinter Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <main class="page">
     <section class="hero">
-      <h1>Sinter Studio</h1>
+      <div class="hero-top">
+        <h1>Sinter Studio</h1>
+        <button class="theme-toggle" type="button" aria-label="Toggle color theme">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle class="theme-toggle-sun" cx="12" cy="12" r="4.5"></circle>
+            <path class="theme-toggle-moon" d="M15.8 3.8a7.9 7.9 0 1 0 4.4 14.6A9 9 0 0 1 15.8 3.8Z"></path>
+            <g class="theme-toggle-rays">
+              <line x1="12" y1="1.5" x2="12" y2="4.5"></line>
+              <line x1="12" y1="19.5" x2="12" y2="22.5"></line>
+              <line x1="1.5" y1="12" x2="4.5" y2="12"></line>
+              <line x1="19.5" y1="12" x2="22.5" y2="12"></line>
+              <line x1="4.4" y1="4.4" x2="6.5" y2="6.5"></line>
+              <line x1="17.5" y1="17.5" x2="19.6" y2="19.6"></line>
+              <line x1="17.5" y1="6.5" x2="19.6" y2="4.4"></line>
+              <line x1="4.4" y1="19.6" x2="6.5" y2="17.5"></line>
+            </g>
+          </svg>
+        </button>
+      </div>
       <p class="eyebrow">Melbourne based digital design studio.</p>
+      <p class="status">Site under construction</p>
       <a
         class="button"
-        href="https://www.linkedin.com/"
+        href="https://www.linkedin.com/company/sinterstudio/about/?viewAsMember=true"
         target="_blank"
         rel="noreferrer"
       >
@@ -23,11 +45,20 @@
 
     <section class="video-section">
       <div class="video-frame">
-        <video autoplay muted loop controls playsinline preload="metadata">
+        <video autoplay muted loop playsinline preload="metadata">
           <source src="https://general-video-bucket.s3.ap-southeast-2.amazonaws.com/LucasHorta_Reel_August04_web.mp4" type="video/mp4">
           Your browser does not support the video tag.
         </video>
       </div>
+    </section>
+
+    <section class="members">
+      <p>
+        Members -
+        <a href="https://www.skrumcious.com" target="_blank" rel="noreferrer">Rory Henderson</a>,
+        <a href="https://www.lucashorta.com/portfolio" target="_blank" rel="noreferrer">Lucas Horta</a>,
+        <span>Claude</span>
+      </p>
     </section>
   </main>
 
