@@ -1,6 +1,7 @@
 ---
 import Base from "../../layouts/Base.astro";
 import ThemeToggle from "../../components/ThemeToggle.astro";
+import SinterMark from "../../components/SinterMark.astro";
 import {
   sanityClient,
   projectsQuery,
@@ -40,9 +41,12 @@ const memberName = project.member === "rory" ? "Rory Henderson"
 ---
 <Base title={`${project.title} — Sinter Studio`} description={project.summary}>
   <header class="site-header">
-    <div>
-      <h1 class="site-title"><a href="/" style="text-decoration:none;color:inherit">Sinter Studio</a></h1>
-    </div>
+    <a class="site-brand" href="/" aria-label="Sinter Studio — home">
+      <SinterMark size={36} glow="soft" id="brand-detail" label={null} />
+      <span class="site-brand__words">
+        <span class="site-title">Sinter Studio</span>
+      </span>
+    </a>
     <nav class="nav-links">
       <a class="nav-link" href="/projects">← Work</a>
       <ThemeToggle />
@@ -65,8 +69,8 @@ const memberName = project.member === "rory" ? "Rory Henderson"
   <!-- Title + meta -->
   <div class="project-detail__body">
     <div>
-      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(2rem,5vw,3.4rem);margin:0 0 16px;line-height:1.05">{project.title}</h1>
-      {project.summary && <p style="color:var(--muted);font-size:0.95rem;line-height:1.6;margin:0">{project.summary}</p>}
+      <h1 class="project-detail__title">{project.title}</h1>
+      {project.summary && <p class="project-detail__summary">{project.summary}</p>}
     </div>
     <dl class="project-detail__meta">
       {project.client && <><dt>Client</dt><dd>{project.client}</dd></>}

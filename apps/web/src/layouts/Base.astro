@@ -15,6 +15,8 @@ const { title = "Sinter Studio", description = "Melbourne based digital design s
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="preload" href="/fonts/ZTNature-Regular.otf" as="font" type="font/otf" crossorigin />
+    <link rel="preload" href="/fonts/ZTNature-Bold.otf" as="font" type="font/otf" crossorigin />
     <!-- Block flash of wrong theme -->
     <script is:inline>
       (function () {
@@ -30,6 +32,7 @@ const { title = "Sinter Studio", description = "Melbourne based digital design s
     <style is:global>@import "../styles/global.css";</style>
   </head>
   <body>
+    <div class="cursor-glow" aria-hidden="true"></div>
     <div class="page">
       <slot />
     </div>
@@ -57,6 +60,37 @@ const { title = "Sinter Studio", description = "Melbourne based digital design s
         </div>
       </div>
     </div>
+
+    <script is:inline>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (window.matchMedia('(hover: none)').matches) return;
+      var glow = document.querySelector('.cursor-glow');
+      if (!glow) return;
+      var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+      var cx = tx, cy = ty;
+      var raf = null;
+      function tick() {
+        cx += (tx - cx) * 0.18;
+        cy += (ty - cy) * 0.18;
+        glow.style.setProperty('--cx', cx + 'px');
+        glow.style.setProperty('--cy', cy + 'px');
+        if (Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4) {
+          raf = requestAnimationFrame(tick);
+        } else {
+          raf = null;
+        }
+      }
+      window.addEventListener('pointermove', function (e) {
+        tx = e.clientX; ty = e.clientY;
+        glow.classList.add('is-active');
+        if (raf == null) raf = requestAnimationFrame(tick);
+      }, { passive: true });
+      window.addEventListener('pointerleave', function () {
+        glow.classList.remove('is-active');
+      });
+    })();
+    </script>
 
     <script is:inline>
     (function () {

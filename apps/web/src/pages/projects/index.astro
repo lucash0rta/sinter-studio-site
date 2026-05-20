@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import ThemeToggle from "../../components/ThemeToggle.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
+import SinterMark from "../../components/SinterMark.astro";
 import { sanityClient, projectsQuery, type ProjectSummary } from "../../lib/sanity";
 
 let projects: ProjectSummary[] = [];
@@ -13,10 +14,13 @@ try {
 ---
 <Base title="Work — Sinter Studio">
   <header class="site-header">
-    <div>
-      <h1 class="site-title"><a href="/" style="text-decoration:none;color:inherit">Sinter Studio</a></h1>
-      <p class="site-desc">Melbourne — Digital design studio</p>
-    </div>
+    <a class="site-brand" href="/" aria-label="Sinter Studio — home">
+      <SinterMark size={44} glow="soft" id="brand-projects" label={null} />
+      <span class="site-brand__words">
+        <span class="site-title">Sinter Studio</span>
+        <span class="site-desc">Melbourne — Digital design studio</span>
+      </span>
+    </a>
     <nav class="nav-links">
       <a class="nav-link" href="/">Home</a>
       <a class="nav-link" href="mailto:sinter@tuta.io">Contact</a>
