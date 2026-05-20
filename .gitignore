@@ -1,2 +1,14 @@
 .DS_Store
 .vercel
+
+# Astro / Sanity
+node_modules/
+.env
+.env.local
+.env.*.local
+dist/
+.astro/
+apps/*/dist/
+apps/*/.astro/
+apps/studio/.sanity/
+.playwright-mcp/

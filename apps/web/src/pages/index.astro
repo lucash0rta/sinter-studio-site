@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { sanityClient, projectsQuery, type ProjectSummary } from "../lib/sanity";
+
+let projects: ProjectSummary[] = [];
+try {
+  projects = await sanityClient.fetch<ProjectSummary[]>(projectsQuery);
+} catch {
+  projects = [];
+}
+
+const featured = projects[0];
+const rest = projects.slice(1);
+---
+<Base>
+  <header class="site-header">
+    <div>
+      <h1 class="site-title">Sinter Studio</h1>
+      <p class="site-desc">Melbourne — Digital design studio</p>
+    </div>
+    <nav class="nav-links">
+      <a class="nav-link" href="/projects">Work</a>
+      <a class="nav-link" href="https://www.linkedin.com/company/sinterstudio/about/" target="_blank" rel="noreferrer">LinkedIn</a>
+      <a class="nav-link" href="mailto:sinter@tuta.io">Contact</a>
+      <ThemeToggle />
+    </nav>
+  </header>
+
+  <!-- Showreel -->
+  <section class="reel">
+    <video autoplay muted loop playsinline preload="metadata">
+      <source src="https://general-video-bucket.s3.ap-southeast-2.amazonaws.com/LucasHorta_Reel_August04_web.mp4" type="video/mp4" />
+    </video>
+  </section>
+
+  <!-- Projects -->
+  {projects.length > 0 && (
+    <section>
+      <p class="section-label">Selected work</p>
+      <div class="project-grid">
+        {featured && (
+          <ProjectCard project={featured} eager={true} featured={true} />
+        )}
+        {rest.map((p) => (
+          <ProjectCard project={p} />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <footer class="members">
+    Members —
+    <a class="text-link" href="https://www.lucashorta.com/portfolio" target="_blank" rel="noreferrer">Lucas Horta</a>,
+    <a class="text-link" href="https://www.skrumcious.com" target="_blank" rel="noreferrer">Rory Henderson</a>
+  </footer>
+</Base>
