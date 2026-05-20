@@ -1,0 +1,150 @@
+---
+import { urlFor } from "../lib/sanity";
+import type { ProjectSummary } from "../lib/sanity";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
+interface Props {
+  project: ProjectSummary;
+  eager?: boolean;
+  featured?: boolean;
+}
+
+const { project, eager = false, featured = false } = Astro.props;
+const { title, slug, year, client, roles, tags, coverUrl, cover, mediaType, summary, member } = project;
+
+const isVideo = mediaType === "video";
+const resolvedCoverUrl = coverUrl ?? (cover ? urlFor(cover as SanityImageSource).width(1200).fit("max").auto("format").url() : null);
+const videoMime = resolvedCoverUrl?.endsWith('.webm') ? 'video/webm' : 'video/mp4';
+const label = roles?.[0] ?? tags?.[0] ?? "";
+
+const projectData = JSON.stringify({
+  slug: slug.current,
+  title,
+  coverUrl: resolvedCoverUrl,
+  mediaType: mediaType ?? "image",
+  client,
+  year,
+  roles,
+  tags,
+  summary,
+  member,
+});
+---
+
+<article
+  class={`project-card${featured ? " project-card--featured" : ""}`}
+  data-project={projectData}
+>
+  <a href={`/projects/${slug.current}`} class="project-card__media-link" tabindex="-1" aria-hidden="true">
+    <div class="project-card__media">
+      {isVideo && resolvedCoverUrl ? (
+        <video autoplay muted loop playsinline preload="metadata">
+          <source src={resolvedCoverUrl} type={videoMime} />
+        </video>
+      ) : resolvedCoverUrl ? (
+        <img
+          src={resolvedCoverUrl}
+          alt={title}
+          loading={eager ? "eager" : "lazy"}
+          decoding="async"
+        />
+      ) : (
+        <div class="project-card__placeholder" aria-hidden="true" />
+      )}
+    </div>
+  </a>
+  <div class="project-card__meta">
+    <a href={`/projects/${slug.current}`} class="project-card__title">{title}</a>
+    <div class="project-card__sub">
+      {client && <span class="project-card__client">{client}</span>}
+      {label && <span class="project-card__label">{label}</span>}
+      {year && <span class="project-card__year">{year}</span>}
+    </div>
+  </div>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    cursor: pointer;
+  }
+
+  .project-card__media-link {
+    display: block;
+  }
+
+  .project-card__media {
+    overflow: hidden;
+    background: var(--panel);
+    position: relative;
+  }
+
+  .project-card__media img,
+  .project-card__media video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 400ms ease;
+  }
+
+  .project-card__media:hover img,
+  .project-card__media:hover video {
+    transform: scale(1.02);
+  }
+
+  .project-card__placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: var(--panel);
+  }
+
+  .project-card__meta {
+    padding: 14px 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .project-card__title {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+    font-weight: 400;
+    color: var(--text);
+    text-decoration: none;
+    line-height: 1.15;
+    transition: opacity 180ms ease;
+  }
+
+  .project-card__title:hover {
+    opacity: 0.6;
+  }
+
+  .project-card__sub {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  .project-card__client {
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .project-card__label::before {
+    content: "·";
+    margin-right: 12px;
+    opacity: 0.5;
+  }
+
+  .project-card__year {
+    margin-left: auto;
+  }
+</style>

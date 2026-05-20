@@ -1,0 +1,22 @@
+<svg width="760" height="220" viewBox="0 0 760 220" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Sinter Studio draft logo</title>
+  <desc id="desc">A square edged grid monogram draft for Sinter Studio with a minimal wordmark.</desc>
+  <rect width="760" height="220" fill="#060606"/>
+  <g stroke="#F5F5F5" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+    <path d="M42 42H178V178H42V42Z"/>
+    <path d="M42 88H104"/>
+    <path d="M116 88H178"/>
+    <path d="M42 132H100"/>
+    <path d="M112 132H178"/>
+    <path d="M88 42V178"/>
+    <path d="M132 42V178"/>
+    <path d="M42 42H108V88H74V132H142V178H42"/>
+    <path d="M178 42H112V88H146V132H78V178H178"/>
+  </g>
+  <text x="232" y="144" fill="#F5F5F5" font-family="Cormorant Garamond, Times New Roman, serif" font-size="84" font-weight="400" letter-spacing="-2">Sinter Studio</text>
+  <g stroke="#F5F5F5" stroke-width="3" stroke-linecap="square">
+    <path d="M238 194H668"/>
+    <path d="M238 28H668" stroke-dasharray="2 12"/>
+  </g>
+  <text x="238" y="51" fill="#A3A3A3" font-family="Space Grotesk, Arial, sans-serif" font-size="15" letter-spacing="5">SINTER STUDIO / DRAFT MARK 01</text>
+</svg>

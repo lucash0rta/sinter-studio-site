@@ -1,0 +1,43 @@
+---
+import Base from "../../layouts/Base.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { sanityClient, projectsQuery, type ProjectSummary } from "../../lib/sanity";
+
+let projects: ProjectSummary[] = [];
+try {
+  projects = await sanityClient.fetch<ProjectSummary[]>(projectsQuery);
+} catch {
+  projects = [];
+}
+---
+<Base title="Work — Sinter Studio">
+  <header class="site-header">
+    <div>
+      <h1 class="site-title"><a href="/" style="text-decoration:none;color:inherit">Sinter Studio</a></h1>
+      <p class="site-desc">Melbourne — Digital design studio</p>
+    </div>
+    <nav class="nav-links">
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="mailto:sinter@tuta.io">Contact</a>
+      <ThemeToggle />
+    </nav>
+  </header>
+
+  <div class="page-hero">
+    <p class="eyebrow">Selected work</p>
+    <h1>All projects</h1>
+  </div>
+
+  {projects.length === 0 ? (
+    <p class="empty-state">No projects yet — add one in the <a class="text-link" href="http://localhost:3333">Studio</a>.</p>
+  ) : (
+    <div class="project-grid">
+      {projects.map((p, i) => <ProjectCard project={p} eager={i === 0} />)}
+    </div>
+  )}
+
+  <footer class="members">
+    <a class="text-link" href="/">← Back to home</a>
+  </footer>
+</Base>

@@ -1,0 +1,115 @@
+---
+import Base from "../../layouts/Base.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import {
+  sanityClient,
+  projectsQuery,
+  projectBySlugQuery,
+  urlFor,
+  type ProjectDetail,
+  type ProjectSummary,
+} from "../../lib/sanity";
+import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
+
+export async function getStaticPaths() {
+  try {
+    const list = await sanityClient.fetch<ProjectSummary[]>(projectsQuery);
+    return list.map((p) => ({ params: { slug: p.slug.current } }));
+  } catch {
+    return [];
+  }
+}
+
+const { slug } = Astro.params;
+const project = await sanityClient.fetch<ProjectDetail | null>(projectBySlugQuery, { slug });
+if (!project) return Astro.redirect("/projects");
+
+const isVideo = project.mediaType === "video";
+const coverSrc = project.coverUrl ??
+  (project.cover ? urlFor(project.cover as SanityImageSource).width(1600).fit("max").auto("format").url() : null);
+const videoMime = coverSrc?.endsWith('.webm') ? 'video/webm' : 'video/mp4';
+
+const memberName = project.member === "rory" ? "Rory Henderson"
+  : project.member === "lucas" ? "Lucas Horta"
+  : project.member === "both" ? "Lucas Horta & Rory Henderson"
+  : null;
+---
+<Base title={`${project.title} — Sinter Studio`} description={project.summary}>
+  <header class="site-header">
+    <div>
+      <h1 class="site-title"><a href="/" style="text-decoration:none;color:inherit">Sinter Studio</a></h1>
+    </div>
+    <nav class="nav-links">
+      <a class="nav-link" href="/projects">← Work</a>
+      <ThemeToggle />
+    </nav>
+  </header>
+
+  <!-- Cover -->
+  {coverSrc && (
+    <div class="project-detail__cover">
+      {isVideo ? (
+        <video autoplay muted loop playsinline>
+          <source src={coverSrc} type={videoMime} />
+        </video>
+      ) : (
+        <img src={coverSrc} alt={project.title} />
+      )}
+    </div>
+  )}
+
+  <!-- Title + meta -->
+  <div class="project-detail__body">
+    <div>
+      <h1 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(2rem,5vw,3.4rem);margin:0 0 16px;line-height:1.05">{project.title}</h1>
+      {project.summary && <p style="color:var(--muted);font-size:0.95rem;line-height:1.6;margin:0">{project.summary}</p>}
+    </div>
+    <dl class="project-detail__meta">
+      {project.client && <><dt>Client</dt><dd>{project.client}</dd></>}
+      {project.year && <><dt>Year</dt><dd>{project.year}</dd></>}
+      {memberName && <><dt>Member</dt><dd>{memberName}</dd></>}
+      {project.roles && project.roles.length > 0 && <><dt>Roles</dt><dd>{project.roles.join(", ")}</dd></>}
+      {project.tags && project.tags.length > 0 && <><dt>Tags</dt><dd>{project.tags.join(", ")}</dd></>}
+      {project.links && project.links.map(l => (
+        <><dt>{l.label}</dt><dd><a class="text-link" href={l.url} target="_blank" rel="noreferrer">{l.url.replace(/^https?:\/\//, "")}</a></dd></>
+      ))}
+    </dl>
+  </div>
+
+  <!-- Gallery (Sanity-hosted) -->
+  {project.gallery && project.gallery.length > 0 && (
+    <div class="project-detail__gallery">
+      {project.gallery.map(item => (
+        <figure style="margin:0">
+          <img
+            src={urlFor(item.asset as SanityImageSource).width(1200).fit("max").auto("format").url()}
+            alt={item.caption ?? project.title}
+            loading="lazy"
+            style="display:block;width:100%;height:auto"
+          />
+          {item.caption && <figcaption style="font-size:0.78rem;color:var(--muted);margin-top:8px">{item.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  )}
+
+  <!-- Gallery (external URLs) -->
+  {project.externalGallery && project.externalGallery.length > 0 && (
+    <div class="project-detail__gallery">
+      {project.externalGallery.map((url, i) => (
+        <figure style="margin:0">
+          <img
+            src={url}
+            alt={`${project.title} — ${i + 1}`}
+            loading="lazy"
+            style="display:block;width:100%;height:auto"
+          />
+        </figure>
+      ))}
+    </div>
+  )}
+
+  <footer class="members">
+    <a class="text-link" href="/projects">← All work</a>
+  </footer>
+</Base>
