@@ -4,7 +4,7 @@ import sanity from "@sanity/astro";
 import { loadEnv } from "vite";
 
 const env = loadEnv(process.env.NODE_ENV ?? "development", process.cwd(), "");
-const projectId = env.SANITY_PROJECT_ID ?? "";
+const projectId = env.SANITY_PROJECT_ID ?? "qyinc6gz";
 const dataset = env.SANITY_DATASET ?? "production";
 
 export default defineConfig({
@@ -20,7 +20,7 @@ export default defineConfig({
   ],
   env: {
     schema: {
-      SANITY_PROJECT_ID: envField.string({ context: "server", access: "public" }),
+      SANITY_PROJECT_ID: envField.string({ context: "server", access: "public", default: "qyinc6gz" }),
       SANITY_DATASET: envField.string({ context: "server", access: "public", default: "production" }),
     },
   },
