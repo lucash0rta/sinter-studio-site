@@ -15,6 +15,42 @@ const featured = projects[0];
 const rest = projects.slice(1);
 ---
 <Base>
+  <div class="site-intro" aria-hidden="true">
+    <div class="site-intro__field">
+      <svg class="site-intro__logo" viewBox="-16 -16 276 276" role="img" aria-label="Sinter Studio mark">
+        <defs>
+          <filter id="intro-neon-glow" x="-70%" y="-70%" width="240%" height="240%" color-interpolation-filters="sRGB">
+            <feGaussianBlur stdDeviation="2.5" result="tight" />
+            <feGaussianBlur stdDeviation="9" result="wide" />
+            <feColorMatrix in="wide" type="matrix" values="
+              1 0 0 0 0
+              0 1 0 0 0
+              0 0 1 0 0
+              0 0 0 .7 0" result="wide-soft" />
+            <feMerge>
+              <feMergeNode in="wide-soft" />
+              <feMergeNode in="tight" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <radialGradient id="intro-core-light" cx="50%" cy="48%" r="58%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity=".18" />
+            <stop offset="62%" stop-color="#ffffff" stop-opacity=".035" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+          </radialGradient>
+        </defs>
+        <rect class="site-intro__aura" x="-16" y="-16" width="276" height="276" rx="18" fill="url(#intro-core-light)" />
+        <g class="site-intro__mark" fill="none" stroke-linecap="round" stroke-linejoin="round" pathLength="1">
+          <polygon class="site-intro__stroke intro-stroke-1" points="162.5 .5 162.5 36.5 135.5 36.5 135.5 153.97 108.5 179.55 108.5 36.5 81.5 36.5 81.5 .5 162.5 .5" />
+          <polygon class="site-intro__stroke intro-stroke-2" points="135.5 153.97 162.5 128.39 162.5 99.5 149 99.5 162.5 99.5 162.5 72.5 149 72.5 162.5 72.5 162.5 36.5 135.5 36.5 135.5 153.97" />
+          <polygon class="site-intro__stroke intro-stroke-3" points="81.5 128.39 81.5 243.5 162.5 243.5 162.5 128.39 108.5 179.55 108.5 128.39 81.5 128.39" />
+          <polyline class="site-intro__stroke intro-stroke-4" points="81.5 .5 81.5 90.03 51.12 90.03 81.5 90.03 81.5 243.5 .5 243.5 .5 153.97 31.58 153.97 .5 153.97 .5 .5 81.5 .5" />
+          <polyline class="site-intro__stroke intro-stroke-5" points="162.5 .5 243.5 .5 243.5 122 230 122 243.5 122 243.5 243.5 203 243.5 203 230 203 243.5 162.5 243.5 162.5 .5" />
+        </g>
+      </svg>
+    </div>
+  </div>
+
   <header class="site-header">
     <div>
       <h1 class="site-title">Sinter Studio</h1>
