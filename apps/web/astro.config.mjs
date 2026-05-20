@@ -13,7 +13,7 @@ export default defineConfig({
     sanity({
       projectId,
       dataset,
-      useCdn: true,
+      useCdn: false,
       apiVersion: "2025-01-01",
     }),
     react(),

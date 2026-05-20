@@ -92,7 +92,11 @@ const { title = "Sinter Studio", description = "Melbourne based digital design s
 
         var memberName = data.member === 'rory' ? 'Rory Henderson'
           : data.member === 'lucas' ? 'Lucas Horta'
+          : data.member === 'claude' ? 'Claude Zhang'
           : data.member === 'both' ? 'Lucas Horta & Rory Henderson'
+          : data.member === 'lucas_claude' ? 'Lucas Horta & Claude Zhang'
+          : data.member === 'rory_claude' ? 'Rory Henderson & Claude Zhang'
+          : data.member === 'all' ? 'Lucas Horta, Rory Henderson & Claude Zhang'
           : null;
 
         var rows = [];
@@ -100,6 +104,14 @@ const { title = "Sinter Studio", description = "Melbourne based digital design s
         if (data.year) rows.push(['Year', String(data.year)]);
         if (memberName) rows.push(['Member', memberName]);
         if (data.roles && data.roles.length) rows.push(['Roles', data.roles.join(', ')]);
+        if (data.credits && data.credits.length) {
+          data.credits.forEach(function(credit) {
+            var name = credit.url
+              ? '<a class="text-link" href="' + credit.url + '" target="_blank" rel="noreferrer">' + credit.name + '</a>'
+              : credit.name;
+            rows.push([credit.role, name]);
+          });
+        }
         if (data.tags && data.tags.length) rows.push(['Tags', data.tags.join(', ')]);
 
         metaEl.innerHTML = rows.map(function(r) {

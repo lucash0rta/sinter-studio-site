@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { project, eager = false, featured = false } = Astro.props;
-const { title, slug, year, client, roles, tags, coverUrl, cover, mediaType, summary, member } = project;
+const { title, slug, year, client, roles, tags, coverUrl, cover, mediaType, summary, member, credits } = project;
 
 const isVideo = mediaType === "video";
 const resolvedCoverUrl = coverUrl ?? (cover ? urlFor(cover as SanityImageSource).width(1200).fit("max").auto("format").url() : null);
@@ -28,6 +28,7 @@ const projectData = JSON.stringify({
   tags,
   summary,
   member,
+  credits,
 });
 ---
 

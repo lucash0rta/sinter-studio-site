@@ -99,10 +99,34 @@ export const project = defineType({
         list: [
           { title: "Lucas Horta", value: "lucas" },
           { title: "Rory Henderson", value: "rory" },
-          { title: "Both", value: "both" },
+          { title: "Claude Zhang", value: "claude" },
+          { title: "Lucas Horta & Rory Henderson", value: "both" },
+          { title: "Lucas Horta & Claude Zhang", value: "lucas_claude" },
+          { title: "Rory Henderson & Claude Zhang", value: "rory_claude" },
+          { title: "All members", value: "all" },
         ],
         layout: "radio",
       },
+    }),
+    defineField({
+      name: "credits",
+      title: "Credits",
+      description: "Specific role credits for collaborators and Sinter members.",
+      type: "array",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "credit",
+          fields: [
+            { name: "role", type: "string", title: "Role" },
+            { name: "name", type: "string", title: "Name" },
+            { name: "url", type: "url", title: "Profile URL" },
+          ],
+          preview: {
+            select: { title: "name", subtitle: "role" },
+          },
+        }),
+      ],
     }),
     defineField({
       name: "gallery",

@@ -7,7 +7,7 @@ const config: ClientConfig = {
   projectId: SANITY_PROJECT_ID,
   dataset: SANITY_DATASET,
   apiVersion: "2025-01-01",
-  useCdn: import.meta.env.PROD,
+  useCdn: false,
 };
 
 export const sanityClient = createClient(config);
@@ -25,9 +25,10 @@ export type ProjectSummary = {
   cover?: SanityImageSource;
   coverUrl?: string;
   mediaType?: "image" | "video";
-  member?: "lucas" | "rory" | "both";
+  member?: "lucas" | "rory" | "claude" | "both" | "lucas_claude" | "rory_claude" | "all";
   tags?: string[];
   roles?: string[];
+  credits?: Array<{ _key: string; role: string; name: string; url?: string }>;
 };
 
 export type ProjectDetail = ProjectSummary & {
@@ -41,7 +42,8 @@ export type ProjectDetail = ProjectSummary & {
 
 export const projectsQuery = /* groq */ `
   *[_type == "project" && !(_id in path("drafts.**"))] | order(year desc, coalesce(order, 9999) asc) {
-    _id, title, slug, year, client, summary, cover, coverUrl, mediaType, member, tags, roles
+    _id, title, slug, year, client, summary, cover, coverUrl, mediaType, member, tags, roles,
+    credits[]{ _key, role, name, url }
   }
 `;
 
@@ -51,6 +53,7 @@ export const projectBySlugQuery = /* groq */ `
     coverUrl, mediaType, member, externalGallery,
     gallery[]{ _key, asset, caption },
     videos[]{ _key, url, caption },
+    credits[]{ _key, role, name, url },
     links[]{ _key, label, url }
   }
 `;

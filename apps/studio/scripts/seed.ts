@@ -22,7 +22,7 @@ type ProjectSeed = {
   slug: string;
   client?: string;
   year: number;
-  member: "lucas" | "rory" | "both";
+  member: "lucas" | "rory" | "claude" | "both" | "lucas_claude" | "rory_claude" | "all";
   roles: string[];
   tags: string[];
   summary: string;
@@ -32,6 +32,7 @@ type ProjectSeed = {
   featured?: boolean;
   externalGallery?: string[];
   links?: { label: string; url: string }[];
+  credits?: { role: string; name: string; url?: string }[];
 };
 
 const projects: ProjectSeed[] = [
@@ -41,7 +42,7 @@ const projects: ProjectSeed[] = [
     slug: "vol2-store",
     client: "Vol.2",
     year: 2026,
-    member: "lucas",
+    member: "lucas_claude",
     roles: ["Web Design", "E-commerce", "Sanity CMS", "Motion Design"],
     tags: ["Fashion", "E-commerce", "Web"],
     summary: "End-to-end digital build for Vol.2 — a Naarm-based nongendered fashion label. Headless Sanity-powered storefront with motion-first landing, launched with the VOL.2 26 collection.",
@@ -54,6 +55,13 @@ const projects: ProjectSeed[] = [
       "https://cdn.sanity.io/images/61n02f5m/production/4d272b40f6932aea027d59afdb03ff21466df5f0-4218x6327.png",
       "https://cdn.sanity.io/images/61n02f5m/production/189008147f4ba8fad347aa364ef3d43f8b74fcfa-4222x6333.png",
       "https://cdn.sanity.io/images/61n02f5m/production/e9d0da7b0bf07293b6d342a08d52758cca891b1f-4292x6438.png",
+    ],
+    credits: [
+      {
+        role: "Intro Animation",
+        name: "Claude Zhang",
+        url: "https://www.linkedin.com/in/claude-zhang-75bb99259/",
+      },
     ],
     links: [{ label: "Visit site", url: "https://vol2.store" }],
   },
@@ -244,6 +252,15 @@ async function seed() {
           _key: `link-${i}`,
           label: l.label,
           url: l.url,
+        })),
+      }),
+      ...(p.credits && {
+        credits: p.credits.map((c, i) => ({
+          _type: "credit",
+          _key: `credit-${i}`,
+          role: c.role,
+          name: c.name,
+          ...(c.url && { url: c.url }),
         })),
       }),
     };
