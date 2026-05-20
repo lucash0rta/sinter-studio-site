@@ -588,6 +588,23 @@ body[data-theme="light"] .theme-toggle-moon { opacity: 0; }
   margin-top: 40px;
 }
 
+.project-detail__videos {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 40px;
+}
+.project-detail__videos video {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.project-detail__caption {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
 .project-detail__gallery img {
   display: block;
   width: 100%;

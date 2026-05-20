@@ -104,6 +104,20 @@ const memberName = project.member === "rory" ? "Rory Henderson"
     </div>
   )}
 
+  <!-- Additional videos -->
+  {project.videos && project.videos.length > 0 && (
+    <div class="project-detail__videos">
+      {project.videos.map(v => (
+        <figure style="margin:0">
+          <video autoplay muted loop playsinline preload="metadata">
+            <source src={v.url} type={v.url.endsWith('.webm') ? 'video/webm' : 'video/mp4'} />
+          </video>
+          {v.caption && <figcaption class="project-detail__caption">{v.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  )}
+
   <!-- Gallery (external URLs) -->
   {project.externalGallery && project.externalGallery.length > 0 && (
     <div class="project-detail__gallery">
